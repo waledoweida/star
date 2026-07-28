@@ -658,9 +658,10 @@
 
     <div class="form-card">
       <form id="applyFormEl" onsubmit="return handleApplySubmit(event)">
-        <input type="hidden" name="access_key" value="d6786e85-93a8-464b-a4ae-21a504574ef9">
-        <input type="hidden" name="subject" value="طلب تقديم جديد — Sales Representative">
-        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="طلب تقديم جديد — Sales Representative">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
         <div class="field" id="fieldName">
           <label>الاسم بالكامل <span class="req">*</span></label>
@@ -928,13 +929,14 @@
     const waUrl = 'https://wa.me/201558055133?text=' + encodeURIComponent(waMessage);
 
     try{
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('https://formsubmit.co/ajax/bbjy2093@gmail.com', {
         method:'POST',
+        headers:{ 'Accept':'application/json' },
         body:formData
       });
       const data = await res.json();
 
-      if(data.success){
+      if(res.ok && data){
         trackEvent('apply_form_success');
         form.style.display = 'none';
         document.getElementById('errorBox').classList.remove('show');
