@@ -2,20 +2,23 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="theme-color" content="#0B1626">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>التقديم لوظيفة Sales Representative</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-<!-- Google Analytics (GA4) —
-     غيّر G-XXXXXXXXXX برقم القياس بتاعك من Google Analytics (Admin > Data Streams).
+<!-- Google Analytics (GA4) — متربط بحساب: G-7T96HL3ECG
      الموقع بيبعت Event تلقائي مع كل: فتح الصفحة، ضغطة "قدّم دلوقتي"، فتح واتساب، مشاركة الوظيفة، وتحميل الفورم. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7T96HL3ECG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-7T96HL3ECG');
 
   // دالة مختصرة لتسجيل أي حدث تفاعل بأمان (متشتغلش لو GA لسه مش متظبط)
   function trackEvent(name, params){
@@ -35,11 +38,95 @@
     --green:#3ddc84;
     --red:#ff6b6b;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--navy-deep);color:var(--paper);font-family:'Tajawal',sans-serif;}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;}
+  html,body{
+    margin:0;padding:0;background:var(--navy-deep);color:var(--paper);font-family:'Tajawal',sans-serif;
+    overflow-x:hidden; width:100%; max-width:100vw;
+    -webkit-text-size-adjust:100%; text-size-adjust:100%;
+  }
   h1,h2,h3,.brand,.num,.btn,.eyebrow{font-family:'Cairo',sans-serif;}
-  a{color:inherit;}
-  .wrap{max-width:560px;margin:0 auto;padding:0 20px;}
+  a{color:inherit; -webkit-tap-highlight-color:transparent;}
+  button{touch-action:manipulation;}
+  .wrap{max-width:560px;margin:0 auto;padding:0 20px; position:relative; z-index:2;}
+
+  /* ===== خلفية طبقات: توهج متحرك + شبكة نقاط + حبيبات نويز ===== */
+  .bg-layer{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;}
+  .bg-base{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 90% 60% at 15% -10%, rgba(255,122,61,0.16), transparent 55%),
+      radial-gradient(ellipse 80% 55% at 100% 15%, rgba(255,194,75,0.10), transparent 55%),
+      linear-gradient(180deg, #0B1626 0%, #0E1B2E 45%, #0B1626 100%);
+  }
+  .bg-grid{
+    position:absolute; inset:-1px;
+    background-image:
+      linear-gradient(rgba(246,241,228,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246,241,228,0.05) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 0%, #000 0%, transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 55% at 50% 0%, #000 0%, transparent 75%);
+    opacity:0.7;
+  }
+  .bg-blob{
+    position:absolute; border-radius:50%; filter:blur(70px);
+    opacity:0.35; will-change:transform;
+  }
+  .bg-blob.b1{
+    width:420px; height:420px; top:-160px; right:-140px;
+    background:radial-gradient(circle, rgba(255,122,61,0.55), transparent 70%);
+    animation:drift1 22s ease-in-out infinite;
+  }
+  .bg-blob.b2{
+    width:380px; height:380px; top:38%; left:-160px;
+    background:radial-gradient(circle, rgba(255,194,75,0.4), transparent 70%);
+    animation:drift2 26s ease-in-out infinite;
+  }
+  .bg-blob.b3{
+    width:320px; height:320px; bottom:-120px; right:10%;
+    background:radial-gradient(circle, rgba(61,220,132,0.16), transparent 70%);
+    animation:drift3 30s ease-in-out infinite;
+  }
+  @keyframes drift1{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-30px,40px) scale(1.12);}
+  }
+  @keyframes drift2{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(40px,-30px) scale(1.08);}
+  }
+  @keyframes drift3{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-20px,-35px) scale(1.15);}
+  }
+  .bg-noise{
+    position:absolute; inset:0; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bg-blob{animation:none !important;}
+  }
+
+  /* ===== تحسينات الهاتف: أداء أخف، تخطيط أوضح، مساحات لمس أكبر ===== */
+  @media (max-width:600px){
+    .bg-blob{filter:blur(46px);}
+    .bg-blob.b1{width:280px; height:280px;}
+    .bg-blob.b2{width:240px; height:240px;}
+    .bg-blob.b3{width:220px; height:220px;}
+    .bg-grid{background-size:32px 32px;}
+    .card{backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);}
+  }
+  @media (max-width:400px){
+    .grid2{grid-template-columns:1fr;}
+    .hero h1{font-size:24px;}
+    .wrap{padding:0 16px;}
+    .share-row{gap:8px;}
+    .share-btn{font-size:12px; padding:11px 6px;}
+  }
+  @supports not (backdrop-filter: blur(1px)){
+    .card, .chip, .loc-box, header{background:rgba(18,35,58,0.92);}
+  }
 
   /* header */
   header{
@@ -55,12 +142,6 @@
   }
   .brand{font-weight:800; font-size:16px;}
   .brand span{color:var(--amber);}
-  .admin-link{
-    font-size:11.5px; color:var(--paper-dim); font-weight:600;
-    border:1px solid var(--line); padding:6px 12px; border-radius:100px;
-    cursor:pointer; background:none;
-  }
-  .admin-link:hover{color:var(--paper); border-color:var(--paper-dim);}
 
   /* hero */
   .hero{
@@ -71,23 +152,38 @@
   .hero::before{
     content:"";
     position:absolute; top:-40%; left:50%; transform:translateX(-50%);
-    width:120%; height:220px;
-    background:radial-gradient(ellipse at center, rgba(255,122,61,0.16), transparent 65%);
+    width:120%; height:280px;
+    background:radial-gradient(ellipse at center, rgba(255,122,61,0.22), transparent 65%);
     pointer-events:none;
+    animation:hero-glow 6s ease-in-out infinite;
+  }
+  @keyframes hero-glow{
+    0%,100%{opacity:0.75; transform:translateX(-50%) scale(1);}
+    50%{opacity:1; transform:translateX(-50%) scale(1.06);}
   }
   .tag{
     display:inline-block;
     font-size:12px; font-weight:700; color:var(--gold);
     background:rgba(255,194,75,0.1); border:1px solid rgba(255,194,75,0.35);
     padding:5px 13px; border-radius:100px; margin-bottom:16px;
+    opacity:0; animation:fade-up .6s ease-out .05s forwards;
   }
   .hero h1{
     font-size:clamp(26px,7vw,36px); font-weight:900; line-height:1.25;
     margin-bottom:12px;
+    opacity:0; animation:fade-up .7s ease-out .15s forwards;
   }
-  .hero h1 .hi{color:var(--amber);}
+  .hero h1 .hi{
+    background:linear-gradient(95deg, var(--gold), var(--amber));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
   .hero p.lead{
     color:var(--paper-dim); font-size:15px; line-height:1.7; max-width:46ch;
+    opacity:0; animation:fade-up .7s ease-out .25s forwards;
+  }
+  @keyframes fade-up{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
   }
 
   /* signature bars */
@@ -96,6 +192,7 @@
     margin:26px 0 6px 0;
     height:110px;
     display:flex; align-items:flex-end; gap:8px;
+    opacity:0; animation:fade-up .7s ease-out .35s forwards;
   }
   .ceiling-wrap{
     position:absolute; left:0; right:0; top:22%;
@@ -104,11 +201,29 @@
   .ceiling-line{flex:1; height:0; border-top:2px dashed rgba(246,241,228,0.25);}
   .ceiling-label{font-size:10.5px; font-weight:700; color:var(--paper-dim); background:var(--navy-deep); padding:2px 8px; white-space:nowrap;}
   .bars{display:flex; align-items:flex-end; gap:8px; width:100%; height:100%; position:relative; z-index:2;}
-  .bar{flex:1; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, rgba(255,194,75,0.45), rgba(255,122,61,0.5));}
-  .bar.b1{height:30%;} .bar.b2{height:46%;} .bar.b3{height:62%;}
-  .bar.hero-bar{height:100%; background:linear-gradient(180deg, var(--gold), var(--amber)); box-shadow:0 8px 22px -6px rgba(255,122,61,0.55); position:relative;}
-  .bar.hero-bar::after{content:"↑ بلا سقف"; position:absolute; top:-24px; right:50%; transform:translateX(50%); font-size:11px; font-weight:800; color:var(--gold); white-space:nowrap; font-family:'Cairo',sans-serif;}
-  .bar.b5{height:18%; opacity:0.3;}
+  .bar{
+    flex:1; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, rgba(255,194,75,0.45), rgba(255,122,61,0.5));
+    transform:scaleY(0); transform-origin:bottom; animation:grow-bar .7s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  .bar.b1{height:30%; animation-delay:.55s;} .bar.b2{height:46%; animation-delay:.65s;} .bar.b3{height:62%; animation-delay:.75s;}
+  .bar.hero-bar{
+    height:100%; background:linear-gradient(180deg, var(--gold), var(--amber));
+    box-shadow:0 8px 26px -6px rgba(255,122,61,0.65); position:relative;
+    animation-delay:.85s, 1.9s; animation-name:grow-bar, bar-glow-pulse; animation-duration:.7s, 2.4s;
+    animation-timing-function:cubic-bezier(.2,.8,.3,1), ease-in-out; animation-iteration-count:1, infinite;
+    animation-fill-mode:forwards, none;
+  }
+  .bar.hero-bar::after{content:"↑ بلا سقف"; position:absolute; top:-24px; right:50%; transform:translateX(50%); font-size:11px; font-weight:800; color:var(--gold); white-space:nowrap; font-family:'Cairo',sans-serif; opacity:0; animation:fade-up .5s ease-out 1.5s forwards;}
+  .bar.b5{height:18%; opacity:0.3; animation-delay:.95s;}
+  @keyframes grow-bar{to{transform:scaleY(1);}}
+  @keyframes bar-glow-pulse{
+    0%,100%{box-shadow:0 8px 26px -6px rgba(255,122,61,0.65);}
+    50%{box-shadow:0 8px 34px -4px rgba(255,122,61,0.9);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bar{animation:none !important; transform:scaleY(1) !important;}
+    .hero::before, .tag, .hero h1, .hero p.lead, .signature{animation:none !important; opacity:1 !important;}
+  }
 
   .cta-scroll{
     margin-top:22px;
@@ -117,6 +232,15 @@
     color:#1c1005; font-weight:800; font-size:14.5px;
     padding:13px 22px; border-radius:100px; border:none; cursor:pointer;
     box-shadow:0 12px 28px -10px rgba(255,122,61,0.55);
+  }
+  .cta-scroll::before{
+    content:""; position:absolute; top:0; bottom:0; left:-60%; width:40%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:skewX(-20deg);
+    animation:sheen 3.2s ease-in-out infinite;
+  }
+  @keyframes sheen{
+    0%{left:-60%;} 45%{left:120%;} 100%{left:120%;}
   }
 
   /* sections */
@@ -130,45 +254,61 @@
 
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   .card{
-    background:rgba(246,241,228,0.04); border:1px solid var(--line);
-    border-radius:14px; padding:14px; display:flex; gap:10px; align-items:flex-start;
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
+    border-radius:16px; padding:14px; display:flex; gap:10px; align-items:flex-start;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 24px -18px rgba(0,0,0,0.6);
   }
   .card .icon{
     width:34px; height:34px; flex-shrink:0; border-radius:10px;
     background:rgba(255,122,61,0.15); display:flex; align-items:center; justify-content:center; font-size:17px;
+    transition:transform .25s ease, background .25s ease;
   }
+  .card:hover .icon{transform:scale(1.12) rotate(-4deg);}
   .card .t{font-weight:700; font-size:13.5px; margin-bottom:3px;}
   .card .d{font-size:11.8px; color:var(--paper-dim); line-height:1.5;}
 
   .chips{display:flex; flex-wrap:wrap; gap:8px;}
   .chip{
     font-size:12.5px; font-weight:600; color:var(--paper-dim);
-    background:rgba(246,241,228,0.04); border:1px solid var(--line);
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
     padding:7px 14px; border-radius:100px;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   }
 
   .loc-box{
     display:flex; align-items:center; gap:10px;
-    background:rgba(246,241,228,0.04); border:1px solid var(--line);
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
     border-radius:14px; padding:14px;
     font-size:13.5px; font-weight:600;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    transition:transform .25s ease, border-color .25s ease;
   }
+  .loc-box:hover, .loc-box:active{transform:translateY(-3px); border-color:rgba(255,194,75,0.4);}
 
   /* form */
-  form{display:flex; flex-direction:column; gap:14px;}
+  .form-card{
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
+    border-radius:20px; padding:22px 18px;
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    box-shadow:0 24px 60px -30px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+  form{display:flex; flex-direction:column; gap:16px;}
   .field label{
-    display:block; font-size:12.5px; font-weight:700; color:var(--paper-dim); margin-bottom:6px;
+    display:block; font-size:12.5px; font-weight:700; color:var(--paper-dim); margin-bottom:7px;
   }
   .field .req{color:var(--amber);}
   .field input, .field select, .field textarea{
-    width:100%; background:rgba(246,241,228,0.045); border:1px solid var(--line);
-    border-radius:12px; padding:12px 14px; color:var(--paper); font-family:'Tajawal',sans-serif;
-    font-size:14.5px; outline:none; transition:border-color .15s;
+    width:100%; background:rgba(11,22,38,0.5); border:1px solid var(--line);
+    border-radius:12px; padding:13px 15px; color:var(--paper); font-family:'Tajawal',sans-serif;
+    font-size:14.5px; outline:none; transition:border-color .2s, box-shadow .2s, background .2s;
   }
+  .field input::placeholder, .field textarea::placeholder{color:rgba(154,166,184,0.6);}
   .field input:focus, .field select:focus, .field textarea:focus{
-    border-color:var(--amber);
+    border-color:var(--amber); background:rgba(11,22,38,0.75);
+    box-shadow:0 0 0 4px rgba(255,122,61,0.12);
   }
-  .field textarea{resize:vertical; min-height:80px;}
+  .field textarea{resize:vertical; min-height:90px;}
   .field .hint{font-size:11px; color:var(--paper-dim); margin-top:5px; opacity:0.8;}
   .field .err{font-size:11.5px; color:var(--red); margin-top:5px; display:none;}
   .field.invalid input, .field.invalid select{border-color:var(--red);}
@@ -176,12 +316,16 @@
 
   .radio-row{display:flex; gap:10px;}
   .radio-opt{
-    flex:1; text-align:center; padding:10px; border-radius:12px;
-    border:1px solid var(--line); background:rgba(246,241,228,0.04);
+    flex:1; text-align:center; padding:12px 10px; border-radius:12px;
+    border:1px solid var(--line); background:rgba(11,22,38,0.35);
     font-size:13px; font-weight:700; cursor:pointer; color:var(--paper-dim);
+    transition:transform .15s ease, border-color .2s ease, color .2s ease, background .2s ease;
+    user-select:none;
   }
+  .radio-opt:active{transform:scale(0.97);}
   .radio-opt.active{
-    border-color:var(--amber); color:var(--gold); background:rgba(255,122,61,0.1);
+    border-color:var(--amber); color:var(--gold); background:rgba(255,122,61,0.14);
+    box-shadow:0 0 0 3px rgba(255,122,61,0.1);
   }
 
   .submit-btn{
@@ -190,34 +334,69 @@
     color:#1c1005; font-weight:800; font-size:15.5px;
     padding:15px; border-radius:14px; border:none; cursor:pointer;
     box-shadow:0 12px 28px -10px rgba(255,122,61,0.55);
+    display:flex; align-items:center; justify-content:center; gap:8px;
   }
   .submit-btn:disabled{opacity:0.6; cursor:not-allowed;}
+  .submit-btn svg{width:18px; height:18px;}
 
   .success-box{
     display:none;
     background:rgba(61,220,132,0.1); border:1px solid rgba(61,220,132,0.4);
-    border-radius:14px; padding:18px; text-align:center;
+    border-radius:16px; padding:22px 18px; text-align:center;
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   }
-  .success-box .chk{font-size:30px; margin-bottom:8px;}
-  .success-box h3{color:var(--green); font-size:16px; margin-bottom:6px;}
+  .success-box.show{display:block; animation:fade-up .5s ease-out forwards;}
+  .success-box .chk{font-size:34px; margin-bottom:8px;}
+  .success-box h3{color:var(--green); font-size:17px; margin-bottom:6px;}
   .success-box p{font-size:12.8px; color:var(--paper-dim); line-height:1.6;}
   .success-box .wa-btn{
-    display:inline-flex; align-items:center; gap:6px; margin-top:12px;
+    display:inline-flex; align-items:center; gap:6px; margin-top:14px;
     background:var(--green); color:#052e17; font-weight:800; font-size:13px;
-    padding:10px 18px; border-radius:100px; text-decoration:none;
+    padding:11px 20px; border-radius:100px; text-decoration:none;
   }
+  .form-note{
+    font-size:11.5px; color:var(--paper-dim); margin-top:12px; text-align:center; line-height:1.6;
+  }
+  .form-note svg{width:12px; height:12px; vertical-align:-1px; margin-left:3px;}
 
-  .jotform-wrap{
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid var(--line);
+  .file-drop{
+    display:flex; align-items:center; gap:10px; justify-content:center;
+    background:rgba(11,22,38,0.5); border:1.5px dashed var(--line);
+    border-radius:12px; padding:18px 14px; cursor:pointer;
+    color:var(--paper-dim); font-size:13px; font-weight:600; text-align:center;
+    transition:border-color .2s ease, background .2s ease, color .2s ease;
   }
-  .jotform-note{
-    font-size:11.5px; color:var(--paper-dim); margin-top:10px; text-align:center; line-height:1.6;
+  .file-drop:hover, .file-drop:active{border-color:var(--amber); color:var(--paper); background:rgba(255,122,61,0.06);}
+  .file-drop svg{width:22px; height:22px; flex-shrink:0; color:var(--gold);}
+  .file-drop.has-file{border-style:solid; border-color:rgba(61,220,132,0.5); background:rgba(61,220,132,0.08); color:var(--green);}
+  .field.invalid .file-drop{border-color:var(--red);}
+
+  .submit-btn.loading{opacity:0.75; cursor:wait;}
+  .spinner{
+    width:16px; height:16px; border-radius:50%;
+    border:2.5px solid rgba(28,16,5,0.25); border-top-color:#1c1005;
+    animation:spin .7s linear infinite; display:inline-block;
   }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .error-box{
+    display:none;
+    background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.4);
+    border-radius:16px; padding:18px; text-align:center;
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  }
+  .error-box.show{display:block; animation:fade-up .5s ease-out forwards;}
+  .error-box p{font-size:13px; color:var(--paper); line-height:1.6; margin-bottom:4px;}
 
   footer{padding:26px 0 40px 0; text-align:center;}
-  footer .num{font-size:20px; font-weight:900; color:var(--gold); direction:ltr; display:inline-block; unicode-bidi:isolate;}
+  footer .num{
+    font-size:22px; font-weight:900; color:var(--gold); direction:ltr; display:inline-block; unicode-bidi:isolate;
+    text-shadow:0 0 18px rgba(255,194,75,0.5);
+    padding:10px 20px; border:1px solid rgba(255,194,75,0.3); border-radius:100px;
+    background:rgba(255,194,75,0.06);
+    transition:transform .15s ease;
+  }
+  footer .num:active{transform:scale(0.96);}
   footer .fnote{font-size:11px; color:var(--paper-dim); margin-top:14px; line-height:1.7;}
 
   /* admin modal */
@@ -277,6 +456,43 @@
     .wa-float svg{width:26px; height:26px;}
   }
 
+  /* فقاعة رسالة دعم HR بجانب أيقونة الواتساب */
+  .wa-bubble{
+    position:fixed; left:18px; bottom:88px; z-index:49;
+    max-width:250px;
+    background:#fff; color:#111b21;
+    border-radius:14px 14px 14px 3px;
+    padding:12px 34px 12px 14px;
+    font-family:'Tajawal',sans-serif; font-size:13px; line-height:1.6; font-weight:500;
+    box-shadow:0 14px 30px -10px rgba(0,0,0,0.45);
+    opacity:0; transform:translateY(14px) scale(0.92); transform-origin:bottom left;
+    pointer-events:none;
+    transition:opacity .35s ease, transform .35s cubic-bezier(.2,.8,.3,1.2);
+    text-align:right; direction:rtl;
+  }
+  .wa-bubble.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+  .wa-bubble::after{
+    content:""; position:absolute; left:16px; bottom:-8px;
+    width:16px; height:16px; background:#fff;
+    clip-path:polygon(0 0, 100% 0, 0 100%);
+  }
+  .wa-bubble .wa-bubble-head{
+    display:flex; align-items:center; gap:6px; margin-bottom:5px;
+    font-family:'Cairo',sans-serif; font-weight:800; font-size:12px; color:#128C7E;
+  }
+  .wa-bubble .wa-bubble-head svg{width:14px; height:14px;}
+  .wa-bubble-close{
+    position:absolute; top:6px; left:8px;
+    width:20px; height:20px; border-radius:50%; border:none;
+    background:rgba(0,0,0,0.06); color:#54656f; font-size:13px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    padding:0;
+  }
+  .wa-bubble-close:hover, .wa-bubble-close:active{background:rgba(0,0,0,0.12);}
+  @media (max-width:380px){
+    .wa-bubble{left:14px; bottom:78px; max-width:210px; font-size:12.5px;}
+  }
+
   /* scroll progress bar */
   .progress-bar{
     position:fixed; top:0; right:0; left:0; height:3px; z-index:30;
@@ -309,7 +525,7 @@
   .card:hover .icon, .card:active .icon{background:rgba(255,122,61,0.28);}
 
   .chip{transition:transform .2s ease, border-color .2s ease, color .2s ease;}
-  .chip:hover{transform:translateY(-2px); border-color:var(--amber); color:var(--paper);}
+  .chip:hover, .chip:active{transform:translateY(-2px); border-color:var(--amber); color:var(--paper);}
 
   /* buttons: press feedback + ripple */
   .cta-scroll, .submit-btn, .share-btn, .wa-float{
@@ -318,7 +534,7 @@
   }
   .cta-scroll:hover, .submit-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px -12px rgba(255,122,61,0.65);}
   .cta-scroll:active, .submit-btn:active, .share-btn:active{transform:translateY(0) scale(.97);}
-  .wa-float:hover{transform:scale(1.06);}
+  .wa-float:hover, .wa-float:active{transform:scale(1.06);}
   .ripple{
     position:absolute; border-radius:50%; background:rgba(255,255,255,0.45);
     transform:scale(0); animation:ripple-anim .55s ease-out forwards;
@@ -347,20 +563,28 @@
   }
   .share-btn svg{width:18px; height:18px; flex-shrink:0;}
   .share-btn.wa{border-color:rgba(37,211,102,0.4);}
-  .share-btn.wa:hover{background:rgba(37,211,102,0.12); border-color:#25D366;}
+  .share-btn.wa:hover, .share-btn.wa:active{background:rgba(37,211,102,0.12); border-color:#25D366;}
   .share-btn.fb{border-color:rgba(24,119,242,0.4);}
-  .share-btn.fb:hover{background:rgba(24,119,242,0.12); border-color:#1877F2;}
+  .share-btn.fb:hover, .share-btn.fb:active{background:rgba(24,119,242,0.12); border-color:#1877F2;}
   .share-label{font-size:12px; color:var(--paper-dim); font-weight:600; margin-bottom:8px;}
 </style>
 </head>
 <body>
+
+<div class="bg-layer">
+  <div class="bg-base"></div>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+  <div class="bg-blob b3"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+</div>
 
 <div class="progress-bar" id="progressBar"></div>
 
 <header id="siteHeader">
   <div class="headbar">
     <div class="brand">شركتنا<span> · توظيف</span></div>
-    <a class="admin-link" href="https://www.jotform.com/submissions/262077747981067" target="_blank" style="text-decoration:none; display:inline-block;">لوحة الطلبات</a>
   </div>
 </header>
 
@@ -429,30 +653,86 @@
 
   <div class="divider"></div>
 
+  <section id="applyForm" class="reveal">
+    <h2 class="section-title">قدّم على الوظيفة</h2>
+
+    <div class="form-card">
+      <form id="applyFormEl" onsubmit="return handleApplySubmit(event)">
+        <input type="hidden" name="access_key" value="d6786e85-93a8-464b-a4ae-21a504574ef9">
+        <input type="hidden" name="subject" value="طلب تقديم جديد — Sales Representative">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="field" id="fieldName">
+          <label>الاسم بالكامل <span class="req">*</span></label>
+          <input type="text" id="inpName" name="name" placeholder="مثال: أحمد محمد" autocomplete="name">
+          <div class="err">من فضلك اكتب اسمك</div>
+        </div>
+
+        <div class="field" id="fieldPhone">
+          <label>رقم الموبايل <span class="req">*</span></label>
+          <input type="tel" id="inpPhone" name="phone" placeholder="01xxxxxxxxx" inputmode="numeric" autocomplete="tel">
+          <div class="hint">يفضّل يكون رقم واتساب عشان نقدر نتواصل بسرعة</div>
+          <div class="err">اكتب رقم موبايل صحيح (11 رقم)</div>
+        </div>
+
+        <div class="field">
+          <label>عندك خبرة سابقة في المبيعات؟</label>
+          <div class="radio-row" id="expRow">
+            <div class="radio-opt active" data-value="من غير خبرة" onclick="selectExp(this)">من غير خبرة</div>
+            <div class="radio-opt" data-value="عندي خبرة" onclick="selectExp(this)">عندي خبرة</div>
+          </div>
+        </div>
+
+        <div class="field" id="fieldCV">
+          <label>ملف الـ CV <span class="req">*</span></label>
+          <div class="file-drop" id="fileDrop" onclick="document.getElementById('inpCV').click()">
+            <input type="file" id="inpCV" name="attachment" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+            <span id="fileDropText">دوس هنا وارفع ملف الـ CV (PDF أو Word)</span>
+          </div>
+          <div class="hint">أقصى حجم للملف 5 ميجا</div>
+          <div class="err">من فضلك ارفق ملف الـ CV</div>
+        </div>
+
+        <div class="field">
+          <label>نبذة عنك <span style="font-weight:500; color:var(--paper-dim);">(اختياري)</span></label>
+          <textarea id="inpMsg" name="message" placeholder="اكتب أي حاجة حابب تقولها عن نفسك..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="submitBtnText">إرسال الطلب</span>
+        </button>
+      </form>
+
+      <div class="success-box" id="successBox">
+        <div class="chk">✅</div>
+        <h3>تمام، طلبك اتبعت بنجاح!</h3>
+        <p>استلمنا بياناتك وملف الـ CV، وفريق التوظيف هيراجعه ويرد عليك في أقرب وقت. تقدر كمان تتواصل معانا على واتساب لو حابب.</p>
+        <a class="wa-btn" id="successWaBtn" href="#" target="_blank">
+          <svg viewBox="0 0 32 32" width="16" height="16" fill="#052e17"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.475.735 4.775 2 6.695L4 29l7.53-1.966A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3z"/></svg>
+          تواصل على واتساب
+        </a>
+      </div>
+      <div class="error-box" id="errorBox">
+        <p>⚠️ حصلت مشكلة في إرسال الطلب. اتأكد من اتصالك بالإنترنت وجرب تاني، أو ابعتلنا مباشرة على واتساب.</p>
+        <a class="wa-btn" id="errorWaBtn" href="#" target="_blank" style="background:var(--amber); color:#1c1005;">تواصل على واتساب بدل كده</a>
+      </div>
+    </div>
+
+    <p class="form-note">
+      🔒 بياناتك وملف الـ CV بيوصلوا مباشرة لفريق التوظيف عندنا، ومفيش طرف تالت شايفهم.
+    </p>
+  </section>
+
+  <div class="divider"></div>
+
   <section class="reveal">
     <h2 class="section-title">مكان العمل</h2>
     <div class="loc-box">📍 حدائق حلوان — مقر الشركة</div>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="applyForm" class="reveal">
-    <h2 class="section-title">قدّم على الوظيفة</h2>
-    <div class="jotform-wrap">
-      <iframe
-        id="jotformIframe"
-        src="https://form.jotform.com/262077747981067"
-        title="التقديم على وظيفة Sales Representative"
-        loading="lazy"
-        allow="geolocation; microphone; camera"
-        style="width:100%; height:900px; border:none; border-radius:16px; background:var(--paper);">
-      </iframe>
-    </div>
-    <p class="jotform-note">لو الفورم مش ظاهر أو بطيء، تقدر تفتحه في صفحة منفصلة من <a href="https://form.jotform.com/262077747981067" target="_blank" onclick="trackEvent('jotform_open_new_tab')" style="color:var(--gold); text-decoration:underline;">هنا</a>.</p>
-  </section>
-
   <footer>
-    <div class="num">01558055133</div>
+    <a class="num" href="tel:+201558055133" style="text-decoration:none;" onclick="trackEvent('phone_tap_call')">01558055133</a>
     <div class="fnote">
       بياناتك بتتبعت مباشرة لفريق التوظيف عندنا.<br>
       لو حصلت مشكلة في الإرسال، تقدر تتواصل معانا مباشرة على نفس الرقم.
@@ -461,7 +741,16 @@
 
 </div>
 
-<a class="wa-float" href="https://wa.me/201558055133?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D9%82%D8%AF%D9%85%20%D8%B9%D9%84%D9%89%20%D9%88%D8%B8%D9%8A%D9%81%D8%A9%20Sales%20Representative" target="_blank" aria-label="تواصل معنا واتساب" onclick="trackEvent('whatsapp_float_click')">
+<div class="wa-bubble" id="waBubble" onclick="openWaSupport(event)" style="cursor:pointer;">
+  <button class="wa-bubble-close" onclick="dismissWaBubble(event)" aria-label="إغلاق">✕</button>
+  <div class="wa-bubble-head">
+    <svg viewBox="0 0 32 32" fill="#25D366"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.475.735 4.775 2 6.695L4 29l7.53-1.966A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3z"/></svg>
+    دعم HR
+  </div>
+  واجهتك مشكلة في التقديم؟ تواصل مع دعم HR على واتساب دلوقتي 👋
+</div>
+
+<a class="wa-float" id="waFloatBtn" href="https://wa.me/201558055133?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D9%82%D8%AF%D9%85%20%D8%B9%D9%84%D9%89%20%D9%88%D8%B8%D9%8A%D9%81%D8%A9%20Sales%20Representative" target="_blank" aria-label="تواصل معنا واتساب" onclick="trackEvent('whatsapp_float_click')">
   <span class="wa-tooltip">تواصل واتساب</span>
   <svg viewBox="0 0 32 32" fill="#fff"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.475.735 4.775 2 6.695L4 29l7.53-1.966A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75c-1.94 0-3.75-.52-5.31-1.43l-.38-.22-4.47 1.17 1.19-4.36-.25-.4A9.72 9.72 0 0 1 5.25 15c0-5.93 4.82-10.75 10.75-10.75S26.75 9.07 26.75 15 21.93 24.75 16 24.75zm5.86-8.05c-.32-.16-1.9-.94-2.19-1.05-.29-.11-.51-.16-.72.16-.21.32-.83 1.05-1.02 1.26-.19.21-.38.24-.7.08-.32-.16-1.34-.5-2.55-1.59-.94-.84-1.58-1.87-1.76-2.19-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.72-1.75-.99-2.39-.26-.63-.53-.54-.72-.55h-.62c-.21 0-.56.08-.85.4-.29.32-1.11 1.08-1.11 2.64s1.14 3.06 1.3 3.27c.16.21 2.24 3.42 5.43 4.8.76.33 1.35.53 1.81.67.76.24 1.45.21 2 .13.61-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.14-.29-.21-.61-.37z"/></svg>
 </a>
@@ -532,6 +821,142 @@
 
   // ===== 5) تتبّع مشاهدة الصفحة (page_view مخصص مع اسم الوظيفة) =====
   trackEvent('job_page_view', {job_title:'Sales Representative'});
+
+  // ===== 6) فقاعة دعم HR بجانب أيقونة الواتساب =====
+  const waBubble = document.getElementById('waBubble');
+  const WA_BUBBLE_KEY = 'waBubbleDismissed';
+
+  function openWaSupport(e){
+    if(e) e.stopPropagation();
+    trackEvent('whatsapp_bubble_click');
+    const text = encodeURIComponent('مرحبًا، واجهتني مشكلة في التقديم على وظيفة Sales Representative وعايز مساعدة من دعم HR.');
+    window.open('https://wa.me/201558055133?text=' + text, '_blank');
+    hideWaBubble();
+  }
+  function dismissWaBubble(e){
+    if(e) e.stopPropagation();
+    trackEvent('whatsapp_bubble_dismiss');
+    hideWaBubble();
+    try{ sessionStorage.setItem(WA_BUBBLE_KEY, '1'); }catch(err){}
+  }
+  function hideWaBubble(){
+    if(waBubble) waBubble.classList.remove('show');
+  }
+
+  (function(){
+    let alreadyDismissed = false;
+    try{ alreadyDismissed = sessionStorage.getItem(WA_BUBBLE_KEY) === '1'; }catch(err){}
+    if(waBubble && !alreadyDismissed){
+      setTimeout(()=>{
+        waBubble.classList.add('show');
+        trackEvent('whatsapp_bubble_shown');
+      }, 3500);
+      // تختفي تلقائيًا بعد فترة لو محدش تفاعل معاها
+      setTimeout(()=>{ hideWaBubble(); }, 16000);
+    }
+  })();
+
+  // ===== 7) فورم التقديم =====
+  let selectedExperience = 'من غير خبرة';
+  function selectExp(el){
+    document.querySelectorAll('#expRow .radio-opt').forEach(o=>o.classList.remove('active'));
+    el.classList.add('active');
+    selectedExperience = el.getAttribute('data-value');
+  }
+
+  function handleFileSelect(input){
+    const drop = document.getElementById('fileDrop');
+    const text = document.getElementById('fileDropText');
+    const field = document.getElementById('fieldCV');
+    if(input.files && input.files[0]){
+      const file = input.files[0];
+      if(file.size > 5 * 1024 * 1024){
+        text.textContent = 'الملف أكبر من 5 ميجا — اختار ملف أصغر';
+        drop.classList.remove('has-file');
+        input.value = '';
+        return;
+      }
+      drop.classList.add('has-file');
+      field.classList.remove('invalid');
+      text.textContent = '✓ ' + file.name;
+    } else {
+      drop.classList.remove('has-file');
+      text.textContent = 'دوس هنا وارفع ملف الـ CV (PDF أو Word)';
+    }
+  }
+
+  async function handleApplySubmit(e){
+    e.preventDefault();
+    const nameField = document.getElementById('fieldName');
+    const phoneField = document.getElementById('fieldPhone');
+    const cvField = document.getElementById('fieldCV');
+    const nameVal = document.getElementById('inpName').value.trim();
+    const phoneVal = document.getElementById('inpPhone').value.trim().replace(/[\s-]/g,'');
+    const cvInput = document.getElementById('inpCV');
+
+    let valid = true;
+    if(nameVal.length < 2){ nameField.classList.add('invalid'); valid = false; }
+    else { nameField.classList.remove('invalid'); }
+
+    const phoneDigits = phoneVal.replace(/\D/g,'');
+    if(phoneDigits.length < 10 || phoneDigits.length > 13){ phoneField.classList.add('invalid'); valid = false; }
+    else { phoneField.classList.remove('invalid'); }
+
+    if(!cvInput.files || !cvInput.files[0]){ cvField.classList.add('invalid'); valid = false; }
+    else { cvField.classList.remove('invalid'); }
+
+    if(!valid){
+      trackEvent('apply_form_validation_error');
+      const firstInvalid = document.querySelector('.field.invalid');
+      if(firstInvalid) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+      return false;
+    }
+
+    trackEvent('apply_form_submit', {experience:selectedExperience});
+
+    const form = document.getElementById('applyFormEl');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitBtnText = document.getElementById('submitBtnText');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    submitBtnText.innerHTML = '<span class="spinner"></span> جاري الإرسال...';
+
+    const formData = new FormData(form);
+    formData.set('experience', selectedExperience);
+
+    const waMessage = 'مرحبًا، عايز أقدم على وظيفة Sales Representative.\nالاسم: ' + nameVal + '\nرقم الموبايل: ' + phoneVal + '\nالخبرة: ' + selectedExperience + '\n(بعت الـ CV عبر فورم الموقع)';
+    const waUrl = 'https://wa.me/201558055133?text=' + encodeURIComponent(waMessage);
+
+    try{
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method:'POST',
+        body:formData
+      });
+      const data = await res.json();
+
+      if(data.success){
+        trackEvent('apply_form_success');
+        form.style.display = 'none';
+        document.getElementById('errorBox').classList.remove('show');
+        const successBox = document.getElementById('successBox');
+        successBox.classList.add('show');
+        successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
+        document.getElementById('successWaBtn').href = waUrl;
+        document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
+      } else {
+        throw new Error(data.message || 'submit_failed');
+      }
+    } catch(err){
+      trackEvent('apply_form_error');
+      document.getElementById('errorBox').classList.add('show');
+      document.getElementById('errorWaBtn').href = waUrl;
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+      submitBtnText.textContent = 'إرسال الطلب';
+    }
+
+    return false;
+  }
 </script>
 
 </body>
