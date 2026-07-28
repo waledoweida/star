@@ -39,8 +39,8 @@
     --red:#ff6b6b;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html{overflow-x:hidden;}
-  html,body{
+  html{width:100%; max-width:100vw;}
+  body{
     margin:0;padding:0;background:var(--navy-deep);color:var(--paper);font-family:'Tajawal',sans-serif;
     overflow-x:hidden; width:100%; max-width:100vw;
     -webkit-text-size-adjust:100%; text-size-adjust:100%;
@@ -286,6 +286,27 @@
   }
   .loc-box:hover, .loc-box:active{transform:translateY(-3px); border-color:rgba(255,194,75,0.4);}
 
+  /* ===== تأثير Tilt 3D على الكروت ===== */
+  .tilt{
+    transform-style:preserve-3d; will-change:transform;
+    transition:transform .5s cubic-bezier(.2,.8,.3,1);
+    position:relative;
+  }
+  .tilt::before{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background:radial-gradient(circle at var(--tx,50%) var(--ty,50%), rgba(255,255,255,0.16), transparent 55%);
+    opacity:0; transition:opacity .3s ease; pointer-events:none; z-index:1;
+  }
+  .tilt.tilting{transition:transform .05s linear;}
+  .tilt.tilting::before{opacity:1;}
+
+  /* ===== اختيار عدد سنين الخبرة (بيظهر لو المستخدم اختار "عندي خبرة") ===== */
+  .years-exp-wrap{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height .35s cubic-bezier(.2,.8,.3,1), opacity .3s ease, margin-top .35s ease;
+  }
+  .years-exp-wrap.open{max-height:120px; opacity:1; margin-top:2px;}
+
   /* ===== عداد تنازلي لموعد إغلاق التقديم ===== */
   .countdown-banner{
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
@@ -303,18 +324,22 @@
   }
   .countdown-text{font-size:12px; font-weight:700; color:var(--paper); white-space:nowrap;}
   .countdown-timer{display:flex; align-items:center; gap:5px; margin-inline-start:auto;}
-  .cd-unit{display:flex; flex-direction:column; align-items:center; min-width:34px;}
+  .cd-unit{display:flex; flex-direction:column; align-items:center; min-width:30px;}
   .cd-num{
     font-family:'Cairo',sans-serif; font-weight:800; font-size:15px; color:var(--gold);
     background:rgba(11,22,38,0.55); border-radius:7px; padding:3px 6px;
-    direction:ltr; unicode-bidi:isolate; min-width:30px; text-align:center;
+    direction:ltr; unicode-bidi:isolate; min-width:28px; text-align:center;
   }
   .cd-label{font-size:9px; color:var(--paper-dim); margin-top:3px; font-weight:600;}
   .cd-sep{color:var(--paper-dim); font-weight:700; font-size:13px;}
   @media (max-width:380px){
-    .countdown-banner{padding:10px 12px; gap:8px;}
-    .countdown-text{font-size:11px;}
-    .cd-num{font-size:13px; padding:2px 5px; min-width:26px;}
+    .countdown-banner{padding:9px 10px; gap:6px;}
+    .countdown-text{font-size:10.5px;}
+    .countdown-timer{gap:3px;}
+    .cd-unit{min-width:24px;}
+    .cd-num{font-size:11.5px; padding:2px 4px; min-width:22px;}
+    .cd-label{font-size:8px;}
+    .cd-sep{font-size:11px;}
   }
 
   /* ===== إحصائيات سريعة (Social Proof) ===== */
@@ -335,31 +360,50 @@
   .stat-label{font-size:10.8px; color:var(--paper-dim); margin-top:5px; font-weight:600; line-height:1.4;}
   @media (max-width:380px){ .stat-num{font-size:18px;} .stat-label{font-size:10px;} }
 
-  /* ===== قصص نجاح / تقييمات (Testimonials) ===== */
-  .testi-scroll{
-    display:flex; gap:12px; overflow-x:auto; padding:4px 2px 10px 2px;
-    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-  }
-  .testi-scroll::-webkit-scrollbar{display:none;}
-  .testi-scroll{scrollbar-width:none;}
-  .testi-card{
-    flex:0 0 80%; scroll-snap-align:start;
+  /* ===== قصص نجاح بشكل Story (زي انستجرام) ===== */
+  .story-viewer{
+    position:relative; border-radius:20px; padding:18px;
     background:rgba(246,241,228,0.045); border:1px solid var(--line);
-    border-radius:18px; padding:18px;
     backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
     box-shadow:0 10px 24px -18px rgba(0,0,0,0.6);
+    min-height:225px; overflow:hidden;
   }
-  .testi-stars{color:var(--gold); font-size:13px; margin-bottom:9px; letter-spacing:2px;}
-  .testi-quote{font-size:13px; line-height:1.75; color:var(--paper); margin-bottom:16px;}
-  .testi-person{display:flex; align-items:center; gap:10px;}
-  .testi-avatar{
-    width:38px; height:38px; border-radius:50%; flex-shrink:0;
+  .story-progress-row{display:flex; gap:5px; margin-bottom:16px;}
+  .story-progress-bar{flex:1; height:3px; background:rgba(255,255,255,0.16); border-radius:3px; overflow:hidden;}
+  .story-progress-fill{height:100%; width:0%; background:linear-gradient(90deg, var(--gold), var(--amber)); border-radius:3px;}
+  .story-progress-bar.done .story-progress-fill{width:100%;}
+  .story-progress-bar.active .story-progress-fill{
+    animation:story-fill-anim var(--story-duration, 5000ms) linear forwards;
+  }
+  .story-viewer.paused .story-progress-bar.active .story-progress-fill{animation-play-state:paused;}
+  @keyframes story-fill-anim{from{width:0%;} to{width:100%;}}
+
+  .story-slide{display:none;}
+  .story-slide.active{display:block; animation:story-fade .4s ease;}
+  @keyframes story-fade{from{opacity:0; transform:scale(0.97);} to{opacity:1; transform:scale(1);}}
+
+  .story-stars{color:var(--gold); font-size:13px; margin-bottom:9px; letter-spacing:2px;}
+  .story-quote{font-size:13.5px; line-height:1.8; color:var(--paper); margin-bottom:18px; min-height:78px;}
+  .story-person{display:flex; align-items:center; gap:10px;}
+  .story-avatar{
+    width:40px; height:40px; border-radius:50%; flex-shrink:0;
     background:linear-gradient(135deg, var(--gold), var(--amber));
     display:flex; align-items:center; justify-content:center;
-    font-family:'Cairo',sans-serif; font-weight:800; color:#1c1005; font-size:15px;
+    font-family:'Cairo',sans-serif; font-weight:800; color:#1c1005; font-size:16px;
   }
-  .testi-name{font-weight:700; font-size:12.5px;}
-  .testi-role{font-size:11px; color:var(--paper-dim);}
+  .story-name{font-weight:700; font-size:12.8px;}
+  .story-role{font-size:11px; color:var(--paper-dim);}
+
+  .story-tap-zone{position:absolute; top:0; bottom:0; width:50%; z-index:5; cursor:pointer;}
+  .story-tap-zone.left{left:0;}
+  .story-tap-zone.right{right:0;}
+  .story-hint{
+    display:flex; justify-content:center; gap:5px; margin-top:12px;
+  }
+  .story-hint span{
+    width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.2);
+  }
+
 
   /* ===== زر عائم "قدّم دلوقتي" يظهر أثناء التمرير ===== */
   .float-cta{
@@ -535,7 +579,7 @@
 
   /* floating whatsapp button */
   .wa-float{
-    position:fixed; left:18px; bottom:18px; z-index:50;
+    position:fixed; left:18px; bottom:18px; z-index:60;
     width:58px; height:58px; border-radius:50%;
     background:#25D366; display:flex; align-items:center; justify-content:center;
     box-shadow:0 10px 26px -6px rgba(37,211,102,0.6);
@@ -633,10 +677,11 @@
   .chip:hover, .chip:active{transform:translateY(-2px); border-color:var(--amber); color:var(--paper);}
 
   /* buttons: press feedback + ripple */
-  .cta-scroll, .submit-btn, .share-btn, .wa-float{
+  .cta-scroll, .submit-btn, .share-btn{
     position:relative; overflow:hidden;
     transition:transform .15s ease, box-shadow .15s ease;
   }
+  .wa-float{transition:transform .15s ease, box-shadow .15s ease;}
   .cta-scroll:hover, .submit-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px -12px rgba(255,122,61,0.65);}
   .cta-scroll:active, .submit-btn:active, .share-btn:active{transform:translateY(0) scale(.97);}
   .wa-float:hover, .wa-float:active{transform:scale(1.06);}
@@ -724,6 +769,8 @@
         <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-label">ساعة</span></div>
         <span class="cd-sep">:</span>
         <div class="cd-unit"><span class="cd-num" id="cdMins">--</span><span class="cd-label">دقيقة</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cdSecs">--</span><span class="cd-label">ثانية</span></div>
       </div>
     </div>
 
@@ -746,9 +793,9 @@
 
   <section class="reveal" style="padding-top:0;">
     <div class="stats-row">
-      <div class="stat-item"><span class="stat-num" id="applicantsStat" data-count="500" data-suffix="+">0</span><div class="stat-label">اتقدموا السنة دي</div></div>
-      <div class="stat-item"><span class="stat-num" data-count="48" data-suffix="h">0</span><div class="stat-label">أقصى وقت للرد</div></div>
-      <div class="stat-item"><span class="stat-num" data-count="4.8" data-suffix="★" data-decimal="1">0</span><div class="stat-label">تقييم الموظفين</div></div>
+      <div class="stat-item tilt"><span class="stat-num" id="applicantsStat" data-count="500" data-suffix="+">0</span><div class="stat-label">اتقدموا السنة دي</div></div>
+      <div class="stat-item tilt"><span class="stat-num" data-count="48" data-suffix="h">0</span><div class="stat-label">أقصى وقت للرد</div></div>
+      <div class="stat-item tilt"><span class="stat-num" data-count="4.8" data-suffix="★" data-decimal="1">0</span><div class="stat-label">تقييم الموظفين</div></div>
     </div>
   </section>
 
@@ -757,10 +804,10 @@
   <section class="reveal">
     <h2 class="section-title">هتكسب إيه</h2>
     <div class="grid2">
-      <div class="card reveal"><div class="icon">💰</div><div><div class="t">مرتب + عمولات</div><div class="d">راتب أساسي ثابت وعمولات من غير سقف</div></div></div>
-      <div class="card reveal"><div class="icon">📈</div><div><div class="t">ترقي حقيقي</div><div class="d">مسار واضح لـ Team Leader فأعلى</div></div></div>
-      <div class="card reveal"><div class="icon">🎓</div><div><div class="t">تدريب مجاني</div><div class="d">متاح حتى لو مالكش خبرة قبل كده</div></div></div>
-      <div class="card reveal"><div class="icon">🤝</div><div><div class="t">فريق داعم</div><div class="d">بيئة عمل شبابية ومحفزة</div></div></div>
+      <div class="card reveal tilt"><div class="icon">💰</div><div><div class="t">مرتب + عمولات</div><div class="d">راتب أساسي ثابت وعمولات من غير سقف</div></div></div>
+      <div class="card reveal tilt"><div class="icon">📈</div><div><div class="t">ترقي حقيقي</div><div class="d">مسار واضح لـ Team Leader فأعلى</div></div></div>
+      <div class="card reveal tilt"><div class="icon">🎓</div><div><div class="t">تدريب مجاني</div><div class="d">متاح حتى لو مالكش خبرة قبل كده</div></div></div>
+      <div class="card reveal tilt"><div class="icon">🤝</div><div><div class="t">فريق داعم</div><div class="d">بيئة عمل شبابية ومحفزة</div></div></div>
     </div>
   </section>
 
@@ -780,47 +827,85 @@
 
   <section class="reveal">
     <h2 class="section-title">قالوا إيه بعد ما انضموا</h2>
-    <div class="testi-scroll">
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-quote">"دخلت من غير أي خبرة، والتدريب فعلاً غيّر نظرتي. أول 3 شهور وصلت لعمولات ضعف الراتب الأساسي."</div>
-        <div class="testi-person">
-          <div class="testi-avatar">ي</div>
-          <div><div class="testi-name">يوسف عادل</div><div class="testi-role">Sales Representative</div></div>
+    <div class="story-viewer" id="storyViewer">
+      <div class="story-progress-row" id="storyProgressRow">
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+        <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      </div>
+
+      <div class="story-slide active">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"دخلت من غير أي خبرة، والتدريب فعلاً غيّر نظرتي. أول 3 شهور وصلت لعمولات ضعف الراتب الأساسي."</div>
+        <div class="story-person">
+          <div class="story-avatar">ي</div>
+          <div><div class="story-name">يوسف عادل</div><div class="story-role">Sales Representative</div></div>
         </div>
       </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-quote">"جو الفريق مختلف تمامًا، مفيش ضغط بلا داعي وفي دعم حقيقي من الـ Team Leader في كل خطوة."</div>
-        <div class="testi-person">
-          <div class="testi-avatar">س</div>
-          <div><div class="testi-name">سارة منصور</div><div class="testi-role">Sales Representative</div></div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"جو الفريق مختلف تمامًا، مفيش ضغط بلا داعي وفي دعم حقيقي من الـ Team Leader في كل خطوة."</div>
+        <div class="story-person">
+          <div class="story-avatar">س</div>
+          <div><div class="story-name">سارة منصور</div><div class="story-role">Sales Representative</div></div>
         </div>
       </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-quote">"اتقدمت من الموبايل في أقل من دقيقة ورجعولي بنفس اليوم. مسار الترقي وضّحوه من أول يوم."</div>
-        <div class="testi-person">
-          <div class="testi-avatar">ك</div>
-          <div><div class="testi-name">كريم فتحي</div><div class="testi-role">Team Leader حاليًا</div></div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"اتقدمت من الموبايل في أقل من دقيقة ورجعولي بنفس اليوم. مسار الترقي وضّحوه من أول يوم."</div>
+        <div class="story-person">
+          <div class="story-avatar">ك</div>
+          <div><div class="story-name">كريم فتحي</div><div class="story-role">Team Leader حاليًا</div></div>
         </div>
       </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-quote">"كنت خايفة أقدم لأني ملّيش خبرة، بس التدريب بدأ من الصفر وحسّيت بدعم حقيقي من أول أسبوع."</div>
-        <div class="testi-person">
-          <div class="testi-avatar">ن</div>
-          <div><div class="testi-name">نور الهدى</div><div class="testi-role">Sales Representative</div></div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"كنت خايفة أقدم لأني ملّيش خبرة، بس التدريب بدأ من الصفر وحسّيت بدعم حقيقي من أول أسبوع."</div>
+        <div class="story-person">
+          <div class="story-avatar">ن</div>
+          <div><div class="story-name">نور الهدى</div><div class="story-role">Sales Representative</div></div>
         </div>
       </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-quote">"العمولات فعلاً من غير سقف زي ما كتبوا، وده خلاني أشتغل بجدية أكتر عشان أوصل لهدفي الشهري."</div>
-        <div class="testi-person">
-          <div class="testi-avatar">أ</div>
-          <div><div class="testi-name">أحمد الشريف</div><div class="testi-role">Sales Representative</div></div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"العمولات فعلاً من غير سقف زي ما كتبوا، وده خلاني أشتغل بجدية أكتر عشان أوصل لهدفي الشهري."</div>
+        <div class="story-person">
+          <div class="story-avatar">أ</div>
+          <div><div class="story-name">أحمد الشريف</div><div class="story-role">Sales Representative</div></div>
         </div>
       </div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"أول شهرين كانوا صعبين شوية، بس بعدها حسّيت إني فاهم شغلي كويس والعمولة بدأت تفرق فعلاً في حياتي."</div>
+        <div class="story-person">
+          <div class="story-avatar">م</div>
+          <div><div class="story-name">مريم عزت</div><div class="story-role">Sales Representative</div></div>
+        </div>
+      </div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"اتدرجت من مندوب مبيعات لـ Team Leader في أقل من سنة، الشركة فعلاً بتستثمر في اللي بيجتهد."</div>
+        <div class="story-person">
+          <div class="story-avatar">ع</div>
+          <div><div class="story-name">عمر جمال</div><div class="story-role">Team Leader حاليًا</div></div>
+        </div>
+      </div>
+      <div class="story-slide">
+        <div class="story-stars">★★★★★</div>
+        <div class="story-quote">"المرونة في المواعيد وقفت جنبي وأنا لسه طالبة، ومقدرتش أطلب حاجة أحسن من كده لبداية شغل."</div>
+        <div class="story-person">
+          <div class="story-avatar">ح</div>
+          <div><div class="story-name">حبيبة السيد</div><div class="story-role">Sales Representative</div></div>
+        </div>
+      </div>
+
+      <div class="story-tap-zone left" onclick="prevStory()" aria-label="السابق"></div>
+      <div class="story-tap-zone right" onclick="nextStory()" aria-label="التالي"></div>
     </div>
   </section>
 
@@ -834,7 +919,6 @@
         <input type="hidden" name="_subject" value="طلب تقديم جديد — Sales Representative">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" id="inpNext" value="">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
         <div class="field" id="fieldName">
@@ -857,6 +941,18 @@
             <div class="radio-opt" data-value="عندي خبرة" onclick="selectExp(this)">عندي خبرة</div>
           </div>
           <input type="hidden" name="experience" id="inpExperience" value="من غير خبرة">
+
+          <div class="years-exp-wrap" id="yearsExpWrap">
+            <label style="margin-top:14px;">كام سنة خبرة عندك؟</label>
+            <select id="inpYearsExp" onchange="onYearsExpChange(this)">
+              <option value="أقل من سنة">أقل من سنة</option>
+              <option value="سنة">سنة</option>
+              <option value="سنتين">سنتين</option>
+              <option value="3 سنين">3 سنين</option>
+              <option value="4 سنين">4 سنين</option>
+              <option value="5 سنين فأكتر">5 سنين فأكتر</option>
+            </select>
+          </div>
         </div>
 
         <div class="field" id="fieldCV">
@@ -1064,14 +1160,16 @@
   // ===== 5) تتبّع مشاهدة الصفحة (page_view مخصص مع اسم الوظيفة) =====
   trackEvent('job_page_view', {job_title:'Sales Representative'});
 
-  // ===== 6) فقاعة دعم HR بجانب أيقونة الواتساب — بتظهر بعد نجاح إرسال الطلب =====
+  // ===== 6) فقاعة دعم HR بجانب أيقونة الواتساب — بتظهر بعد أي محاولة إرسال، نجحت أو فشلت =====
   const waBubble = document.getElementById('waBubble');
+  const waBubbleTextEl = document.getElementById('waBubbleText');
 
   function openWaSupport(e){
     if(e) e.stopPropagation();
     trackEvent('whatsapp_bubble_click');
-    const text = encodeURIComponent('مرحبًا، بعت طلبي على وظيفة Sales Representative وحابب أتابعه / عندي سؤال.');
-    window.open('https://wa.me/201558055133?text=' + text, '_blank');
+    const customUrl = waBubble ? waBubble.getAttribute('data-wa-url') : null;
+    const url = customUrl || ('https://wa.me/201558055133?text=' + encodeURIComponent('مرحبًا، عايز أتواصل بخصوص التقديم على وظيفة Sales Representative.'));
+    window.open(url, '_blank');
     hideWaBubble();
   }
   function dismissWaBubble(e){
@@ -1082,20 +1180,140 @@
   function hideWaBubble(){
     if(waBubble) waBubble.classList.remove('show');
   }
-  function showWaBubble(){
+  function showWaBubble(kind, waUrl){
     if(!waBubble) return;
+    if(waBubbleTextEl){
+      waBubbleTextEl.textContent = (kind === 'error')
+        ? 'حصلت مشكلة في إرسال طلبك 😕 ابعت بياناتك والـ CV مباشرة على واتساب دلوقتي 👋'
+        : 'تم استلام طلبك ✅ لو حابب تتابعه أو عندك أي سؤال، كلّمنا على واتساب دلوقتي 👋';
+    }
+    if(waUrl) waBubble.setAttribute('data-wa-url', waUrl);
     setTimeout(()=>{
       waBubble.classList.add('show');
-      trackEvent('whatsapp_bubble_shown');
+      trackEvent('whatsapp_bubble_shown_' + (kind || 'default'));
     }, 900);
   }
+
+  // ===== 6ب) عرض الآراء بشكل Story (زي انستجرام) =====
+  (function(){
+    const viewer = document.getElementById('storyViewer');
+    if(!viewer) return;
+    const slides = viewer.querySelectorAll('.story-slide');
+    const bars = document.querySelectorAll('#storyProgressRow .story-progress-bar');
+    const DURATION = 8000;
+    let idx = 0, timer = null, isPageVisible = true;
+    viewer.style.setProperty('--story-duration', DURATION + 'ms');
+
+    function render(i){
+      idx = (i + slides.length) % slides.length;
+      slides.forEach((s, n)=> s.classList.toggle('active', n === idx));
+      bars.forEach((b, n)=>{
+        b.classList.remove('active','done');
+        if(n < idx) b.classList.add('done');
+        if(n === idx) b.classList.add('active');
+      });
+      restart();
+    }
+    function restart(){
+      clearTimeout(timer);
+      if(isPageVisible) timer = setTimeout(()=>render(idx+1), DURATION);
+    }
+    window.nextStory = function(){ trackEvent('story_next'); render(idx+1); };
+    window.prevStory = function(){ trackEvent('story_prev'); render(idx-1); };
+
+    // يوقف التقدّم التلقائي لو القسم مش ظاهر على الشاشة، وييرجع يشتغل لما يظهر تاني
+    new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        isPageVisible = entry.isIntersecting;
+        if(isPageVisible) restart(); else clearTimeout(timer);
+      });
+    }, {threshold:0.35}).observe(viewer);
+
+    render(0);
+  })();
+
+  // ===== 6ج) تأثير Tilt 3D على الكروت (جيروسكوب على الموبايل + ماوس على الديسكتوب) =====
+  (function(){
+    const tiltEls = document.querySelectorAll('.tilt');
+    if(!tiltEls.length) return;
+    const MAX_DEG = 8;
+
+    function setTilt(el, px, py){
+      const rotY = px * MAX_DEG;
+      const rotX = -py * MAX_DEG;
+      el.style.transform = 'perspective(700px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale(1.02)';
+      el.style.setProperty('--tx', (50 + px*50) + '%');
+      el.style.setProperty('--ty', (50 + py*50) + '%');
+    }
+    function resetTilt(el){
+      el.style.transform = '';
+      el.classList.remove('tilting');
+    }
+
+    // تفاعل الماوس (ديسكتوب)
+    tiltEls.forEach(el=>{
+      el.addEventListener('mousemove', function(e){
+        const rect = el.getBoundingClientRect();
+        const px = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const py = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+        el.classList.add('tilting');
+        setTilt(el, px, py);
+      });
+      el.addEventListener('mouseleave', ()=> resetTilt(el));
+    });
+
+    // تفاعل الجيروسكوب (موبايل) — بيميل الكروت مع ميلان الجهاز نفسه
+    let latestOrientation = null, rafScheduled = false;
+    function applyOrientationTilt(){
+      rafScheduled = false;
+      if(!latestOrientation) return;
+      const gamma = Math.max(-30, Math.min(30, latestOrientation.gamma || 0));
+      const beta = Math.max(-30, Math.min(30, (latestOrientation.beta || 45) - 45));
+      const px = gamma / 30, py = beta / 30;
+      tiltEls.forEach(el=>{
+        const rect = el.getBoundingClientRect();
+        if(rect.bottom < -50 || rect.top > window.innerHeight + 50) return;
+        el.classList.add('tilting');
+        setTilt(el, px, py);
+      });
+    }
+    function onOrientation(e){
+      if(e.beta === null || e.gamma === null) return;
+      latestOrientation = e;
+      if(!rafScheduled){ rafScheduled = true; requestAnimationFrame(applyOrientationTilt); }
+    }
+    function enableGyroTilt(){
+      if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+        DeviceOrientationEvent.requestPermission().then(state=>{
+          if(state === 'granted') window.addEventListener('deviceorientation', onOrientation);
+        }).catch(()=>{});
+      } else if(typeof DeviceOrientationEvent !== 'undefined'){
+        window.addEventListener('deviceorientation', onOrientation);
+      }
+    }
+    // على iOS لازم إذن صريح، فبنحاول نفعّله مع أول لمسة/ضغطة من المستخدم في الصفحة
+    document.addEventListener('touchstart', enableGyroTilt, {once:true, passive:true});
+    document.addEventListener('click', enableGyroTilt, {once:true});
+  })();
 
   // ===== 7) فورم التقديم =====
   let selectedExperience = 'من غير خبرة';
   function selectExp(el){
     document.querySelectorAll('#expRow .radio-opt').forEach(o=>o.classList.remove('active'));
     el.classList.add('active');
-    selectedExperience = el.getAttribute('data-value');
+    const val = el.getAttribute('data-value');
+    const yearsWrap = document.getElementById('yearsExpWrap');
+    const yearsSelect = document.getElementById('inpYearsExp');
+    if(val === 'عندي خبرة'){
+      if(yearsWrap) yearsWrap.classList.add('open');
+      selectedExperience = 'عندي خبرة (' + (yearsSelect ? yearsSelect.value : '') + ')';
+    } else {
+      if(yearsWrap) yearsWrap.classList.remove('open');
+      selectedExperience = 'من غير خبرة';
+    }
+  }
+  function onYearsExpChange(sel){
+    selectedExperience = 'عندي خبرة (' + sel.value + ')';
   }
 
   function handleFileSelect(input){
@@ -1159,12 +1377,38 @@
 
     const waMessage = 'مرحبًا، عايز أقدم على وظيفة Sales Representative.\nالاسم: ' + nameVal + '\nرقم الموبايل: ' + phoneVal + '\nالخبرة: ' + selectedExperience + '\n(بعت الـ CV عبر فورم الموقع)';
     const waUrl = 'https://wa.me/201558055133?text=' + encodeURIComponent(waMessage);
-    try{ sessionStorage.setItem('applyWaUrl', waUrl); sessionStorage.setItem('applyName', nameVal); }catch(err){}
+    const formData = new FormData(form);
 
-    const base = window.location.href.split('#')[0].split('?')[0];
-    document.getElementById('inpNext').value = base + '?submitted=1#applyForm';
+    try{
+      // mode:'no-cors' يضمن إن الطلب (بما فيه الـ CV) يتبعت فعليًا للسيرفر
+      // من غير ما نطلب نقرا رد السيرفر، فمش بيقف بسبب قيود CORS
+      await fetch('https://formsubmit.co/bbjy2093@gmail.com', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      });
 
-    form.submit();
+      trackEvent('apply_form_success');
+      form.style.display = 'none';
+      document.getElementById('errorBox').classList.remove('show');
+      const successBox = document.getElementById('successBox');
+      successBox.classList.add('show');
+      fireConfetti();
+      successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
+      document.getElementById('successWaBtn').href = waUrl;
+      document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
+      showWaBubble('success', waUrl);
+      syncApplicantsCounter(true);
+    } catch(err){
+      trackEvent('apply_form_error');
+      document.getElementById('errorBox').classList.add('show');
+      document.getElementById('errorWaBtn').href = waUrl;
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+      submitBtnText.textContent = 'إرسال الطلب';
+      showWaBubble('error', waUrl);
+    }
+
     return false;
   }
 
@@ -1185,17 +1429,20 @@
     const daysEl = document.getElementById('cdDays');
     const hoursEl = document.getElementById('cdHours');
     const minsEl = document.getElementById('cdMins');
+    const secsEl = document.getElementById('cdSecs');
     if(!daysEl) return;
     const diff = getNextDeadline().getTime() - Date.now();
     const d = Math.max(0, Math.floor(diff / (1000*60*60*24)));
     const h = Math.max(0, Math.floor((diff % (1000*60*60*24)) / (1000*60*60)));
     const m = Math.max(0, Math.floor((diff % (1000*60*60)) / (1000*60)));
+    const s = Math.max(0, Math.floor((diff % (1000*60)) / 1000));
     daysEl.textContent = String(d).padStart(2,'0');
     hoursEl.textContent = String(h).padStart(2,'0');
     minsEl.textContent = String(m).padStart(2,'0');
+    if(secsEl) secsEl.textContent = String(s).padStart(2,'0');
   }
   updateCountdown();
-  setInterval(updateCountdown, 30000);
+  setInterval(updateCountdown, 1000);
 
   // ===== 2ه) عدّاد حقيقي مشترك لعدد المتقدمين (بيزيد فعليًا مع كل طلب ناجح) =====
   const COUNTER_KEY = 'waledoweida-star-sales-rep-applicants';
@@ -1225,34 +1472,7 @@
     }
   }
 
-  (async function checkSubmittedRedirect(){
-    const params = new URLSearchParams(window.location.search);
-    const didJustSubmit = params.get('submitted') === '1';
-
-    await syncApplicantsCounter(didJustSubmit);
-
-    if(didJustSubmit){
-      let waUrl = '#', nameVal = '';
-      try{
-        waUrl = sessionStorage.getItem('applyWaUrl') || '#';
-        nameVal = sessionStorage.getItem('applyName') || '';
-      }catch(err){}
-      const form = document.getElementById('applyFormEl');
-      if(form) form.style.display = 'none';
-      const successBox = document.getElementById('successBox');
-      if(successBox){
-        successBox.classList.add('show');
-        fireConfetti();
-        showWaBubble();
-        if(nameVal) successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
-        document.getElementById('successWaBtn').href = waUrl;
-        document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
-      }
-      trackEvent('apply_form_success');
-      const cleanUrl = window.location.pathname + '#applyForm';
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  })();
+  syncApplicantsCounter(false);
 </script>
 
 </body>
