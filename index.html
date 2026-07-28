@@ -657,10 +657,11 @@
     <h2 class="section-title">قدّم على الوظيفة</h2>
 
     <div class="form-card">
-      <form id="applyFormEl" onsubmit="return handleApplySubmit(event)">
+      <form id="applyFormEl" method="POST" action="https://formsubmit.co/bbjy2093@gmail.com" enctype="multipart/form-data" onsubmit="return handleApplySubmit(event)">
         <input type="hidden" name="_subject" value="طلب تقديم جديد — Sales Representative">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="inpNext" value="">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
         <div class="field" id="fieldName">
@@ -682,6 +683,7 @@
             <div class="radio-opt active" data-value="من غير خبرة" onclick="selectExp(this)">من غير خبرة</div>
             <div class="radio-opt" data-value="عندي خبرة" onclick="selectExp(this)">عندي خبرة</div>
           </div>
+          <input type="hidden" name="experience" id="inpExperience" value="من غير خبرة">
         </div>
 
         <div class="field" id="fieldCV">
@@ -922,43 +924,41 @@
     submitBtn.classList.add('loading');
     submitBtnText.innerHTML = '<span class="spinner"></span> جاري الإرسال...';
 
-    const formData = new FormData(form);
-    formData.set('experience', selectedExperience);
+    document.getElementById('inpExperience') && (document.getElementById('inpExperience').value = selectedExperience);
 
     const waMessage = 'مرحبًا، عايز أقدم على وظيفة Sales Representative.\nالاسم: ' + nameVal + '\nرقم الموبايل: ' + phoneVal + '\nالخبرة: ' + selectedExperience + '\n(بعت الـ CV عبر فورم الموقع)';
     const waUrl = 'https://wa.me/201558055133?text=' + encodeURIComponent(waMessage);
+    try{ sessionStorage.setItem('applyWaUrl', waUrl); sessionStorage.setItem('applyName', nameVal); }catch(err){}
 
-    try{
-      const res = await fetch('https://formsubmit.co/bbjy2093@gmail.com', {
-        method:'POST',
-        headers:{ 'Accept':'application/json' },
-        body:formData
-      });
-      const data = await res.json();
+    const base = window.location.href.split('#')[0].split('?')[0];
+    document.getElementById('inpNext').value = base + '?submitted=1#applyForm';
 
-      if(res.ok && data){
-        trackEvent('apply_form_success');
-        form.style.display = 'none';
-        document.getElementById('errorBox').classList.remove('show');
-        const successBox = document.getElementById('successBox');
-        successBox.classList.add('show');
-        successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
-        document.getElementById('successWaBtn').href = waUrl;
-        document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
-      } else {
-        throw new Error(data.message || 'submit_failed');
-      }
-    } catch(err){
-      trackEvent('apply_form_error');
-      document.getElementById('errorBox').classList.add('show');
-      document.getElementById('errorWaBtn').href = waUrl;
-      submitBtn.disabled = false;
-      submitBtn.classList.remove('loading');
-      submitBtnText.textContent = 'إرسال الطلب';
-    }
-
+    form.submit();
     return false;
   }
+
+  (function checkSubmittedRedirect(){
+    const params = new URLSearchParams(window.location.search);
+    if(params.get('submitted') === '1'){
+      let waUrl = '#', nameVal = '';
+      try{
+        waUrl = sessionStorage.getItem('applyWaUrl') || '#';
+        nameVal = sessionStorage.getItem('applyName') || '';
+      }catch(err){}
+      const form = document.getElementById('applyFormEl');
+      if(form) form.style.display = 'none';
+      const successBox = document.getElementById('successBox');
+      if(successBox){
+        successBox.classList.add('show');
+        if(nameVal) successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
+        document.getElementById('successWaBtn').href = waUrl;
+        document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
+      }
+      trackEvent('apply_form_success');
+      const cleanUrl = window.location.pathname + '#applyForm';
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  })();
 </script>
 
 </body>
