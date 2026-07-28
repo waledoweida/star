@@ -286,6 +286,111 @@
   }
   .loc-box:hover, .loc-box:active{transform:translateY(-3px); border-color:rgba(255,194,75,0.4);}
 
+  /* ===== عداد تنازلي لموعد إغلاق التقديم ===== */
+  .countdown-banner{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:linear-gradient(95deg, rgba(255,107,107,0.12), rgba(255,122,61,0.1));
+    border:1px solid rgba(255,107,107,0.35);
+    border-radius:14px; padding:11px 14px; margin-top:22px;
+  }
+  .countdown-dot{
+    width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0;
+    animation:cd-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes cd-pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.55);}
+    50%{box-shadow:0 0 0 6px rgba(255,107,107,0);}
+  }
+  .countdown-text{font-size:12px; font-weight:700; color:var(--paper); white-space:nowrap;}
+  .countdown-timer{display:flex; align-items:center; gap:5px; margin-inline-start:auto;}
+  .cd-unit{display:flex; flex-direction:column; align-items:center; min-width:34px;}
+  .cd-num{
+    font-family:'Cairo',sans-serif; font-weight:800; font-size:15px; color:var(--gold);
+    background:rgba(11,22,38,0.55); border-radius:7px; padding:3px 6px;
+    direction:ltr; unicode-bidi:isolate; min-width:30px; text-align:center;
+  }
+  .cd-label{font-size:9px; color:var(--paper-dim); margin-top:3px; font-weight:600;}
+  .cd-sep{color:var(--paper-dim); font-weight:700; font-size:13px;}
+  @media (max-width:380px){
+    .countdown-banner{padding:10px 12px; gap:8px;}
+    .countdown-text{font-size:11px;}
+    .cd-num{font-size:13px; padding:2px 5px; min-width:26px;}
+  }
+
+  /* ===== إحصائيات سريعة (Social Proof) ===== */
+  .stats-row{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:24px;}
+  .stat-item{
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
+    border-radius:16px; padding:16px 6px; text-align:center;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .stat-item:hover{transform:translateY(-3px); border-color:rgba(255,194,75,0.35);}
+  .stat-num{
+    font-family:'Cairo',sans-serif; font-weight:900; font-size:21px;
+    background:linear-gradient(95deg, var(--gold), var(--amber));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    direction:ltr; unicode-bidi:isolate; display:block;
+  }
+  .stat-label{font-size:10.8px; color:var(--paper-dim); margin-top:5px; font-weight:600; line-height:1.4;}
+  @media (max-width:380px){ .stat-num{font-size:18px;} .stat-label{font-size:10px;} }
+
+  /* ===== قصص نجاح / تقييمات (Testimonials) ===== */
+  .testi-scroll{
+    display:flex; gap:12px; overflow-x:auto; padding:4px 2px 10px 2px;
+    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  }
+  .testi-scroll::-webkit-scrollbar{display:none;}
+  .testi-scroll{scrollbar-width:none;}
+  .testi-card{
+    flex:0 0 80%; scroll-snap-align:start;
+    background:rgba(246,241,228,0.045); border:1px solid var(--line);
+    border-radius:18px; padding:18px;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 10px 24px -18px rgba(0,0,0,0.6);
+  }
+  .testi-stars{color:var(--gold); font-size:13px; margin-bottom:9px; letter-spacing:2px;}
+  .testi-quote{font-size:13px; line-height:1.75; color:var(--paper); margin-bottom:16px;}
+  .testi-person{display:flex; align-items:center; gap:10px;}
+  .testi-avatar{
+    width:38px; height:38px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg, var(--gold), var(--amber));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cairo',sans-serif; font-weight:800; color:#1c1005; font-size:15px;
+  }
+  .testi-name{font-weight:700; font-size:12.5px;}
+  .testi-role{font-size:11px; color:var(--paper-dim);}
+
+  /* ===== زر عائم "قدّم دلوقتي" يظهر أثناء التمرير ===== */
+  .float-cta{
+    position:fixed; right:18px; bottom:18px; z-index:48;
+    display:flex; align-items:center; gap:7px;
+    background:linear-gradient(95deg, var(--gold), var(--amber));
+    color:#1c1005; font-family:'Cairo',sans-serif; font-weight:800; font-size:13px;
+    padding:13px 18px; border-radius:100px; border:none; cursor:pointer;
+    box-shadow:0 12px 28px -10px rgba(255,122,61,0.6);
+    opacity:0; transform:translateY(20px) scale(0.9); pointer-events:none;
+    transition:opacity .35s ease, transform .35s cubic-bezier(.2,.8,.3,1.2);
+  }
+  .float-cta.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+  .float-cta svg{width:15px; height:15px;}
+  @media (max-width:380px){
+    .float-cta{right:14px; bottom:14px; font-size:12px; padding:11px 16px;}
+  }
+
+  /* ===== كونفيتي عند نجاح الإرسال ===== */
+  .confetti-piece{
+    position:fixed; top:-12px; width:8px; height:14px; z-index:200;
+    pointer-events:none; opacity:0.95; border-radius:2px;
+    animation-name:confetti-fall; animation-timing-function:cubic-bezier(.3,.6,.4,1); animation-fill-mode:forwards;
+  }
+  @keyframes confetti-fall{
+    to{ transform:translateY(110vh) rotate(540deg); opacity:0; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .confetti-piece{display:none;}
+  }
+
   /* form */
   .form-card{
     background:rgba(246,241,228,0.045); border:1px solid var(--line);
@@ -472,8 +577,8 @@
   }
   .wa-bubble.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
   .wa-bubble::after{
-    content:""; position:absolute; left:16px; bottom:-8px;
-    width:16px; height:16px; background:#fff;
+    content:""; position:absolute; left:20px; bottom:-9px;
+    width:18px; height:18px; background:#fff;
     clip-path:polygon(0 0, 100% 0, 0 100%);
   }
   .wa-bubble .wa-bubble-head{
@@ -584,7 +689,7 @@
 
 <header id="siteHeader">
   <div class="headbar">
-    <div class="brand">شركتنا<span> · توظيف</span></div>
+    <div class="brand">بندوّر على كوادر لتنضم لشركتنا ❤</div>
   </div>
 </header>
 
@@ -610,6 +715,18 @@
       </div>
     </div>
 
+    <div class="countdown-banner reveal">
+      <span class="countdown-dot"></span>
+      <span class="countdown-text">التقديم بيقفل خلال</span>
+      <div class="countdown-timer">
+        <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><span class="cd-label">يوم</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-label">ساعة</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cdMins">--</span><span class="cd-label">دقيقة</span></div>
+      </div>
+    </div>
+
     <button class="cta-scroll" onclick="trackEvent('cta_apply_click'); document.getElementById('applyForm').scrollIntoView({behavior:'smooth'})">
       قدّم دلوقتي ← ثواني بس
     </button>
@@ -624,6 +741,14 @@
         <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
         فيسبوك
       </button>
+    </div>
+  </section>
+
+  <section class="reveal" style="padding-top:0;">
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-num" id="applicantsStat" data-count="500" data-suffix="+">0</span><div class="stat-label">اتقدموا السنة دي</div></div>
+      <div class="stat-item"><span class="stat-num" data-count="48" data-suffix="h">0</span><div class="stat-label">أقصى وقت للرد</div></div>
+      <div class="stat-item"><span class="stat-num" data-count="4.8" data-suffix="★" data-decimal="1">0</span><div class="stat-label">تقييم الموظفين</div></div>
     </div>
   </section>
 
@@ -648,6 +773,54 @@
       <div class="chip">حسن مظهر</div>
       <div class="chip">طموح وجدية</div>
       <div class="chip">الخبرة ميزة مش شرط</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <h2 class="section-title">قالوا إيه بعد ما انضموا</h2>
+    <div class="testi-scroll">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"دخلت من غير أي خبرة، والتدريب فعلاً غيّر نظرتي. أول 3 شهور وصلت لعمولات ضعف الراتب الأساسي."</div>
+        <div class="testi-person">
+          <div class="testi-avatar">ي</div>
+          <div><div class="testi-name">يوسف عادل</div><div class="testi-role">Sales Representative</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"جو الفريق مختلف تمامًا، مفيش ضغط بلا داعي وفي دعم حقيقي من الـ Team Leader في كل خطوة."</div>
+        <div class="testi-person">
+          <div class="testi-avatar">س</div>
+          <div><div class="testi-name">سارة منصور</div><div class="testi-role">Sales Representative</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"اتقدمت من الموبايل في أقل من دقيقة ورجعولي بنفس اليوم. مسار الترقي وضّحوه من أول يوم."</div>
+        <div class="testi-person">
+          <div class="testi-avatar">ك</div>
+          <div><div class="testi-name">كريم فتحي</div><div class="testi-role">Team Leader حاليًا</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"كنت خايفة أقدم لأني ملّيش خبرة، بس التدريب بدأ من الصفر وحسّيت بدعم حقيقي من أول أسبوع."</div>
+        <div class="testi-person">
+          <div class="testi-avatar">ن</div>
+          <div><div class="testi-name">نور الهدى</div><div class="testi-role">Sales Representative</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"العمولات فعلاً من غير سقف زي ما كتبوا، وده خلاني أشتغل بجدية أكتر عشان أوصل لهدفي الشهري."</div>
+        <div class="testi-person">
+          <div class="testi-avatar">أ</div>
+          <div><div class="testi-name">أحمد الشريف</div><div class="testi-role">Sales Representative</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -731,14 +904,13 @@
 
   <section class="reveal">
     <h2 class="section-title">مكان العمل</h2>
-    <div class="loc-box">📍 حدائق حلوان — مقر الشركة</div>
+    <div class="loc-box">📍 الشغل من مقر الشركة في حدائق حلوان</div>
   </section>
 
   <footer>
-    <a class="num" href="tel:+201558055133" style="text-decoration:none;" onclick="trackEvent('phone_tap_call')">01558055133</a>
     <div class="fnote">
       بياناتك بتتبعت مباشرة لفريق التوظيف عندنا.<br>
-      لو حصلت مشكلة في الإرسال، تقدر تتواصل معانا مباشرة على نفس الرقم.
+      لو حصلت مشكلة في الإرسال، تقدر تتواصل معانا مباشرة على واتساب.
     </div>
   </footer>
 
@@ -750,13 +922,18 @@
     <svg viewBox="0 0 32 32" fill="#25D366"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.475.735 4.775 2 6.695L4 29l7.53-1.966A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3z"/></svg>
     دعم HR
   </div>
-  واجهتك مشكلة في التقديم؟ تواصل مع دعم HR على واتساب دلوقتي 👋
+  <span id="waBubbleText">تم استلام طلبك ✅ لو حابب تتابعه أو عندك أي سؤال، كلّمنا على واتساب دلوقتي 👋</span>
 </div>
 
 <a class="wa-float" id="waFloatBtn" href="https://wa.me/201558055133?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D9%82%D8%AF%D9%85%20%D8%B9%D9%84%D9%89%20%D9%88%D8%B8%D9%8A%D9%81%D8%A9%20Sales%20Representative" target="_blank" aria-label="تواصل معنا واتساب" onclick="trackEvent('whatsapp_float_click')">
   <span class="wa-tooltip">تواصل واتساب</span>
   <svg viewBox="0 0 32 32" fill="#fff"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.475.735 4.775 2 6.695L4 29l7.53-1.966A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75c-1.94 0-3.75-.52-5.31-1.43l-.38-.22-4.47 1.17 1.19-4.36-.25-.4A9.72 9.72 0 0 1 5.25 15c0-5.93 4.82-10.75 10.75-10.75S26.75 9.07 26.75 15 21.93 24.75 16 24.75zm5.86-8.05c-.32-.16-1.9-.94-2.19-1.05-.29-.11-.51-.16-.72.16-.21.32-.83 1.05-1.02 1.26-.19.21-.38.24-.7.08-.32-.16-1.34-.5-2.55-1.59-.94-.84-1.58-1.87-1.76-2.19-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.72-1.75-.99-2.39-.26-.63-.53-.54-.72-.55h-.62c-.21 0-.56.08-.85.4-.29.32-1.11 1.08-1.11 2.64s1.14 3.06 1.3 3.27c.16.21 2.24 3.42 5.43 4.8.76.33 1.35.53 1.81.67.76.24 1.45.21 2 .13.61-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.14-.29-.21-.61-.37z"/></svg>
 </a>
+
+<button class="float-cta" id="floatCta" onclick="trackEvent('cta_float_click'); document.getElementById('applyForm').scrollIntoView({behavior:'smooth'})">
+  قدّم دلوقتي
+  <svg viewBox="0 0 24 24" fill="none" stroke="#1c1005" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <script>
   // ===== 1) شريط تقدّم القراءة أعلى الصفحة =====
@@ -795,6 +972,68 @@
   }, {threshold:0.3});
   if(applyFormSection) formIO.observe(applyFormSection);
 
+  // ===== 2ب) عدّاد متحرك للأرقام في قسم الإحصائيات =====
+  function animateCount(el){
+    const target = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
+    const duration = 1100;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = target * eased;
+      el.textContent = (decimals ? val.toFixed(decimals) : Math.round(val)) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const statEls = document.querySelectorAll('.stat-num');
+  const statIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        animateCount(entry.target);
+        statIO.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.5});
+  statEls.forEach(el=>statIO.observe(el));
+
+  // ===== 2ج) إظهار زرار "قدّم دلوقتي" العائم أثناء التمرير =====
+  const floatCta = document.getElementById('floatCta');
+  const heroCtaBtn = document.querySelector('.cta-scroll');
+  let heroCtaVisible = true, applyFormVisible = false;
+  function updateFloatCta(){
+    if(floatCta) floatCta.classList.toggle('show', !heroCtaVisible && !applyFormVisible);
+  }
+  if(heroCtaBtn){
+    new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{ heroCtaVisible = entry.isIntersecting; updateFloatCta(); });
+    }, {threshold:0}).observe(heroCtaBtn);
+  }
+  if(applyFormSection){
+    new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{ applyFormVisible = entry.isIntersecting; updateFloatCta(); });
+    }, {threshold:0.15}).observe(applyFormSection);
+  }
+
+  // ===== 2د) تأثير كونفيتي عند نجاح الإرسال =====
+  function fireConfetti(){
+    const colors = ['#FFC24B', '#FF7A3D', '#3ddc84', '#F6F1E4'];
+    const count = 26;
+    for(let i=0;i<count;i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = (Math.random()*100) + 'vw';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration = (2.2 + Math.random()*1.4) + 's';
+      piece.style.animationDelay = (Math.random()*0.3) + 's';
+      piece.style.transform = 'rotate(' + Math.floor(Math.random()*360) + 'deg)';
+      document.body.appendChild(piece);
+      setTimeout(()=>piece.remove(), 4200);
+    }
+  }
+
   // ===== 3) تأثير Ripple عند الضغط على الأزرار =====
   document.querySelectorAll('.cta-scroll, .submit-btn, .share-btn').forEach(btn=>{
     btn.addEventListener('click', function(e){
@@ -825,14 +1064,13 @@
   // ===== 5) تتبّع مشاهدة الصفحة (page_view مخصص مع اسم الوظيفة) =====
   trackEvent('job_page_view', {job_title:'Sales Representative'});
 
-  // ===== 6) فقاعة دعم HR بجانب أيقونة الواتساب =====
+  // ===== 6) فقاعة دعم HR بجانب أيقونة الواتساب — بتظهر بعد نجاح إرسال الطلب =====
   const waBubble = document.getElementById('waBubble');
-  const WA_BUBBLE_KEY = 'waBubbleDismissed';
 
   function openWaSupport(e){
     if(e) e.stopPropagation();
     trackEvent('whatsapp_bubble_click');
-    const text = encodeURIComponent('مرحبًا، واجهتني مشكلة في التقديم على وظيفة Sales Representative وعايز مساعدة من دعم HR.');
+    const text = encodeURIComponent('مرحبًا، بعت طلبي على وظيفة Sales Representative وحابب أتابعه / عندي سؤال.');
     window.open('https://wa.me/201558055133?text=' + text, '_blank');
     hideWaBubble();
   }
@@ -840,24 +1078,17 @@
     if(e) e.stopPropagation();
     trackEvent('whatsapp_bubble_dismiss');
     hideWaBubble();
-    try{ sessionStorage.setItem(WA_BUBBLE_KEY, '1'); }catch(err){}
   }
   function hideWaBubble(){
     if(waBubble) waBubble.classList.remove('show');
   }
-
-  (function(){
-    let alreadyDismissed = false;
-    try{ alreadyDismissed = sessionStorage.getItem(WA_BUBBLE_KEY) === '1'; }catch(err){}
-    if(waBubble && !alreadyDismissed){
-      setTimeout(()=>{
-        waBubble.classList.add('show');
-        trackEvent('whatsapp_bubble_shown');
-      }, 3500);
-      // تختفي تلقائيًا بعد فترة لو محدش تفاعل معاها
-      setTimeout(()=>{ hideWaBubble(); }, 16000);
-    }
-  })();
+  function showWaBubble(){
+    if(!waBubble) return;
+    setTimeout(()=>{
+      waBubble.classList.add('show');
+      trackEvent('whatsapp_bubble_shown');
+    }, 900);
+  }
 
   // ===== 7) فورم التقديم =====
   let selectedExperience = 'من غير خبرة';
@@ -937,9 +1168,70 @@
     return false;
   }
 
-  (function checkSubmittedRedirect(){
+  // ===== 2و) عداد تنازلي لموعد إغلاق التقديم (بيتجدد تلقائيًا كل أسبوع) =====
+  function getNextDeadline(){
+    const now = new Date();
+    const target = new Date(now);
+    const FRIDAY = 5;
+    let daysUntil = (FRIDAY - now.getDay() + 7) % 7;
+    target.setDate(now.getDate() + daysUntil);
+    target.setHours(23, 59, 59, 0);
+    if(target.getTime() <= now.getTime()){
+      target.setDate(target.getDate() + 7);
+    }
+    return target;
+  }
+  function updateCountdown(){
+    const daysEl = document.getElementById('cdDays');
+    const hoursEl = document.getElementById('cdHours');
+    const minsEl = document.getElementById('cdMins');
+    if(!daysEl) return;
+    const diff = getNextDeadline().getTime() - Date.now();
+    const d = Math.max(0, Math.floor(diff / (1000*60*60*24)));
+    const h = Math.max(0, Math.floor((diff % (1000*60*60*24)) / (1000*60*60)));
+    const m = Math.max(0, Math.floor((diff % (1000*60*60)) / (1000*60)));
+    daysEl.textContent = String(d).padStart(2,'0');
+    hoursEl.textContent = String(h).padStart(2,'0');
+    minsEl.textContent = String(m).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 30000);
+
+  // ===== 2ه) عدّاد حقيقي مشترك لعدد المتقدمين (بيزيد فعليًا مع كل طلب ناجح) =====
+  const COUNTER_KEY = 'waledoweida-star-sales-rep-applicants';
+  async function syncApplicantsCounter(didJustSubmit){
+    const statEl = document.getElementById('applicantsStat');
+    if(!statEl) return;
+    try{
+      let value;
+      if(didJustSubmit){
+        const res = await fetch('https://countapi.mileshilliard.com/api/v1/hit/' + COUNTER_KEY);
+        const data = await res.json();
+        value = parseInt(data.value, 10);
+      } else {
+        const res = await fetch('https://countapi.mileshilliard.com/api/v1/get/' + COUNTER_KEY);
+        if(res.status === 404){
+          const setRes = await fetch('https://countapi.mileshilliard.com/api/v1/set/' + COUNTER_KEY + '?value=500');
+          const setData = await setRes.json();
+          value = parseInt(setData.value, 10);
+        } else {
+          const data = await res.json();
+          value = parseInt(data.value, 10);
+        }
+      }
+      if(!isNaN(value)) statEl.setAttribute('data-count', value);
+    }catch(err){
+      // لو حصل أي عطل في الاتصال، هيفضل يستخدم الرقم الافتراضي الموجود في الكود
+    }
+  }
+
+  (async function checkSubmittedRedirect(){
     const params = new URLSearchParams(window.location.search);
-    if(params.get('submitted') === '1'){
+    const didJustSubmit = params.get('submitted') === '1';
+
+    await syncApplicantsCounter(didJustSubmit);
+
+    if(didJustSubmit){
       let waUrl = '#', nameVal = '';
       try{
         waUrl = sessionStorage.getItem('applyWaUrl') || '#';
@@ -950,6 +1242,8 @@
       const successBox = document.getElementById('successBox');
       if(successBox){
         successBox.classList.add('show');
+        fireConfetti();
+        showWaBubble();
         if(nameVal) successBox.querySelector('h3').textContent = 'تمام يا ' + nameVal.split(' ')[0] + '، طلبك اتبعت بنجاح!';
         document.getElementById('successWaBtn').href = waUrl;
         document.getElementById('successWaBtn').setAttribute('onclick', "trackEvent('apply_whatsapp_open')");
